@@ -192,7 +192,8 @@ Follow the steps below to deploy a simple RAG chat application using the provisi
 
 16. Finally, test the web app to verify it successfully connects to the underlying services.
 
-![Final test](media/final-chat-test.png
+![Final test](media/final-chat-test.png)
+
 17. Optionally, restrict inbound network access to the app.
 
 ### Prompt Flow
