@@ -27,7 +27,7 @@ param deploySearch bool
 
 var abbrs = loadJsonContent('abbreviations.json')
 
-var uniqueSuffix = substring(uniqueString(subscription().id, resourceGroupName), 1, 3)
+var uniqueSuffix = substring(uniqueString(subscription().id, environmentName), 1, 3)
 
 var names = {
   resourceGroup: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
