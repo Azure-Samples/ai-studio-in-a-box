@@ -54,6 +54,7 @@ git clone https://github.com/Azure-Samples/ai-studio-in-a-box
 ```
 cd ai-studio-in-a-box
 azd auth login
+azd env new
 azd up
 ```
 
