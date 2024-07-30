@@ -42,7 +42,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: keyVault.id
-          groupIds: [ 'vault' ]
+          groupIds: ['vault']
         }
       }
     ]
@@ -61,7 +61,6 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     }
   }
 }
-
 
 output keyVaultID string = keyVault.id
 output keyVaultName string = keyVault.name
