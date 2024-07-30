@@ -235,6 +235,28 @@ Special thanks to:
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party's policies.
 
+## FAQ
+
+1. Compute instance setup fails with StorageMountError:
+   ```commandline
+    StorageMountError: The specified Azure ML Compute Instance ******** setup failed with error "Failed to mount storage. Details - Hint:If you're using network security group rules, make sure to allow outbound connection to ports 443, 445 for storage service tag. For more details please visit aka.ms/AMLComputeVnet"
+   ```
+    - Compute instances are unable to mount for the first time with identity-based access. If you require compute instances, first deploy with key-based access, create one compute, and later switch to identity based. After this process, you will be able to create new computes normally.
+
+2. InvalidPrincipalId: A valid principal ID must be provided for role assignment.
+    - Some versions of AZD CLI will not run the preup hook when running `azd up` for the first time. Make sure to initialize the environment with `azd env new` before running `azd up`, or simply redeploy to fix this issue.
+
+3. BadRequest: When updating a shared private link resource, only 'requestMessage' property is allowed to be modified
+    - After the first time you deploy shared private links, subsequent deployments will fail with this message. Run the command below to disable the re-deployment of shared private links.
+    ```sh
+    azd env set AZURE_DEPLOY_SHARED_PRIVATE_LINKS false
+    ```
+
+4. ValidationError: Managed network cannot be disabled once enabled.
+    - Same as above for AI Projects. Run the command below to disable the re-deployment of the AI Project.
+    ```sh
+    azd env set AZURE_DEPLOY_AI_PROJECT false
+    ```
 
 ---
 

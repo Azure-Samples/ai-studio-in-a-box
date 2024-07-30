@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceGroupName": {
-      "value": "${AZURE_APP_RG}"
+      "value": "${AZURE_RG_NAME}"
     },
     "environmentName": {
       "value": "${AZURE_ENV_NAME}"
@@ -11,29 +11,14 @@
     "location": {
       "value": "${AZURE_LOCATION}"
     },
-    "gptModel": {
-      "value": "${AZURE_GPT_MODEL}"
+    "aiServicesName": {
+      "value": "${AZURE_AISERVICES_NAME}"
     },
-    "gptVersion": {
-      "value": "${AZURE_GPT_VERSION}"
+    "deploySharedPrivateLinks": {
+      "value": "${AZURE_DEPLOY_SHARED_PRIVATE_LINKS}"
     },
-    "openaiName": {
-      "value": "${AZURE_OPENAI_NAME}"
-    },
-    "msiName": {
-      "value": "${AZURE_MSI_NAME}"
-    },
-    "appServicePlanName": {
-      "value": "${AZURE_APP_SERVICE_PLAN_NAME}"
-    },
-    "appServiceName": {
-      "value": "${AZURE_APP_SERVICE_NAME}"
-    },
-    "botServiceName": {
-      "value": "${AZURE_BOT_SERVICE_NAME}"
-    },
-    "cosmosName": {
-      "value": "${AZURE_COSMOS_NAME}"
+    "deployAIProject": {
+      "value": "${AZURE_DEPLOY_AI_PROJECT}"
     },
     "myPrincipalId": {
       "value": "${PRINCIPAL_ID}"

@@ -5,6 +5,7 @@ param publicNetworkAccess string
 param systemDatastoresAuthMode string
 param privateEndpointSubnetId string
 param privateDnsZoneId string
+param grantAccessTo array = []
 
 resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: storageName
@@ -71,6 +72,21 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     }
   }
 }
+resource storageBlobDataContributor 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+}
+
+resource writerAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principal in grantAccessTo: if (!empty(principal.id)) {
+    name: guid(principal.id, storage.id, storageBlobDataContributor.id)
+    scope: storage
+    properties: {
+      roleDefinitionId: storageBlobDataContributor.id
+      principalId: principal.id
+      principalType: principal.type
+    }
+  }
+]
 
 output storageID string = storage.id
 output storageName string = storage.name

@@ -5,18 +5,6 @@ param publicNetworkAccess string
 param privateEndpointSubnetId string
 param privateDnsZoneId string
 
-param storageName string
-param aiServicesName string
-
-
-resource aiServices 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {
-  name: aiServicesName
-}
-
-resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
-  name: storageName
-}
-
 resource search 'Microsoft.Search/searchServices@2024-06-01-preview' = {
   name: searchName
   location: location
@@ -36,25 +24,6 @@ resource search 'Microsoft.Search/searchServices@2024-06-01-preview' = {
     partitionCount: 1
     hostingMode: 'default'
     publicNetworkAccess: publicNetworkAccess
-  }
-  resource linkToStorage 'sharedPrivateLinkResources' = {
-    name: 'link-to-storage-account'
-    properties: {
-      groupId: 'blob'
-      privateLinkResourceId: storage.id
-      requestMessage: 'Requested Private Endpoint Connection from Search Service ${searchName}'
-    }
-  }
-  resource linkToAI 'sharedPrivateLinkResources' = {
-    name: 'link-to-ai-service'
-    properties: {
-      groupId: 'openai_account'
-      privateLinkResourceId: aiServices.id
-      requestMessage: 'Requested Private Endpoint Connection from Search Service ${searchName}'
-    }
-    dependsOn: [
-      linkToStorage
-    ]
   }
 }
 
@@ -92,4 +61,5 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
 }
 
 output searchID string = search.id
+output searchPrincipalId string = search.identity.principalId
 output searchName string = search.name

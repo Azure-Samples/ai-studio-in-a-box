@@ -24,6 +24,8 @@ param storageName string = ''
 param keyVaultName string = ''
 param searchName string = ''
 param deploySearch bool
+param deploySharedPrivateLinks bool = deploySearch
+param deployAIProject bool = true
 
 var abbrs = loadJsonContent('abbreviations.json')
 
@@ -35,14 +37,17 @@ var names = {
   vnet: '${abbrs.networkVirtualNetworks}${environmentName}-${uniqueSuffix}'
   privateLinkSubnet: '${abbrs.networkVirtualNetworksSubnets}${environmentName}-pl-${uniqueSuffix}'
   appSubnet: '${abbrs.networkVirtualNetworksSubnets}${environmentName}-app-${uniqueSuffix}'
-  aiServices: !empty(aiServicesName) ? aiServicesName : '${abbrs.cognitiveServicesAccounts}${environmentName}-${uniqueSuffix}'
+  aiServices: !empty(aiServicesName)
+    ? aiServicesName
+    : '${abbrs.cognitiveServicesAccounts}${environmentName}-${uniqueSuffix}'
   aiHub: !empty(aiHubName) ? aiHubName : '${abbrs.cognitiveServicesAccounts}hub-${environmentName}-${uniqueSuffix}'
   search: !empty(searchName) ? searchName : '${abbrs.searchSearchServices}${environmentName}-${uniqueSuffix}'
-  storage: !empty(storageName) ? storageName : replace(replace('${abbrs.storageStorageAccounts}${environmentName}${uniqueSuffix}', '-',''), '_','')
+  storage: !empty(storageName)
+    ? storageName
+    : replace(replace('${abbrs.storageStorageAccounts}${environmentName}${uniqueSuffix}', '-', ''), '_', '')
   keyVault: !empty(keyVaultName) ? keyVaultName : '${abbrs.keyVaultVaults}${environmentName}-${uniqueSuffix}'
   computeInstance: '${abbrs.computeVirtualMachines}${environmentName}-${uniqueSuffix}'
 }
-
 
 // Deploy two resource groups
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
@@ -103,6 +108,16 @@ module m_aiservices 'modules/aiservices.bicep' = {
     privateEndpointSubnetId: m_network.outputs.privateEndpointSubnetId
     openAIPrivateDnsZoneId: m_dns.outputs.dnsZoneIds[0]
     cognitiveServicesPrivateDnsZoneId: m_dns.outputs.dnsZoneIds[1]
+    grantAccessTo: [
+      {
+        id: myPrincipalId
+        type: 'User'
+      }
+      {
+        id: deploySearch ? m_search.outputs.searchPrincipalId : ''
+        type: 'ServicePrincipal'
+      }
+    ]
     tags: tags
   }
 }
@@ -113,8 +128,6 @@ module m_search 'modules/searchService.bicep' = if (deploySearch) {
   params: {
     location: location
     searchName: names.search
-    aiServicesName: m_aiservices.outputs.aiServicesName
-    storageName: m_storage.outputs.storageName
     publicNetworkAccess: publicNetworkAccess
     privateEndpointSubnetId: m_network.outputs.privateEndpointSubnetId
     privateDnsZoneId: m_dns.outputs.dnsZoneIds[4]
@@ -122,6 +135,25 @@ module m_search 'modules/searchService.bicep' = if (deploySearch) {
   }
 }
 
+module m_sharedPrivateLinks 'modules/sharedPrivateLinks.bicep' = if (deploySharedPrivateLinks) {
+  name: 'deploy_sharedPrivateLinks'
+  scope: resourceGroup
+  params: {
+    searchName: names.search
+    openaiName: m_aiservices.outputs.aiServicesName
+    storageName: m_storage.outputs.storageName
+    grantAccessTo: [
+      {
+        id: myPrincipalId
+        type: 'User'
+      }
+      {
+        id: m_aiservices.outputs.aiservicesPrincipalId
+        type: 'ServicePrincipal'
+      }
+    ]
+  }
+}
 
 // Storage and Key Vault - AI Hub dependencies
 module m_storage 'modules/storage.bicep' = {
@@ -169,22 +201,10 @@ module m_aihub 'modules/aihub.bicep' = {
     apiPrivateDnsZoneId: m_dns.outputs.dnsZoneIds[6]
     notebookPrivateDnsZoneId: m_dns.outputs.dnsZoneIds[7]
     defaultComputeName: names.computeInstance
+    deployAIProject: deployAIProject
     tags: tags
   }
 }
-
-// RBAC module - deploys basic role assignments for RAG
-module m_rbac 'modules/rbac.bicep' = {
-  name: 'deploy_rbac'
-  scope: resourceGroup
-  params: {
-    aiServicesName: m_aiservices.outputs.aiServicesName
-    storageName: m_storage.outputs.storageName
-    searchName: deploySearch ? m_search.outputs.searchName : ''
-    myPrincipalId: myPrincipalId
-  }
-}
-
 
 output AZURE_TENANT_ID string = tenant().tenantId
 output AZURE_RESOURCE_GROUP_ID string = resourceGroup.id

@@ -18,6 +18,7 @@ param privateEndpointSubnetId string
 param apiPrivateDnsZoneId string
 param notebookPrivateDnsZoneId string
 param defaultComputeName string
+param deployAIProject bool
 
 
 resource aiServices 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {
@@ -44,7 +45,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
     publicNetworkAccess: publicNetworkAccess
     managedNetwork: {
       isolationMode: 'AllowInternetOutbound'
-      outboundRules: {
+      outboundRules: !empty(search.name) ? {
         'rule-${search.name}': {
           type: 'PrivateEndpoint'
           destination: {
@@ -52,7 +53,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
             subresourceTarget: 'searchService'
           }
         }
-      }
+      } : {}
     }
     friendlyName: aiHubName
     keyVault: keyVault.id
@@ -102,8 +103,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
   }
 }
 
-
-resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview' = {
+resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview' = if(deployAIProject) {
   name: aiProjectName
   location: location
   tags: tags
@@ -113,6 +113,10 @@ resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-prev
   properties: {
     publicNetworkAccess: publicNetworkAccess
     hubResourceId: aiHub.id
+    
+    managedNetwork: {
+      status: aiHub.properties.managedNetwork.status
+    }
   }
   kind: 'Project'
 }
