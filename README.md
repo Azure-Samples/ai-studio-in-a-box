@@ -38,7 +38,7 @@ You may also further customize the template to hook into existing network and se
 
 ## Deploy the Solution
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgithub.com%2FAzure-Samples%2Fai-studio-in-a-box%2Freleases%2Fdownload%2Fv0.0.1%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fai-studio-in-a-box%2Fclean-up-001%2Finfra%2Fazuredeploy.json)
 
 ### Prerequisites for running locally:
 1. Install latest version of [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)
