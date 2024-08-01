@@ -3,14 +3,14 @@ targetScope = 'subscription'
 // Common configurations
 @description('Name of the environment')
 param environmentName string
-@description('Principal ID to grant access to the AI services')
+@description('Principal ID to grant access to the AI services. Leave empty to skip')
 param myPrincipalId string = ''
-@description('Resource group name for the AI services')
+@description('Resource group name for the AI services. Defauts to rg-<environmentName>')
 param resourceGroupName string = ''
-@description('Resource group name for the DNS configurations')
+@description('Resource group name for the DNS configurations. Defaults to rg-dns')
 param dnsResourceGroupName string = ''
-@description('Tags for all AI resources created')
-param tags object
+@description('Tags for all AI resources created. JSON object')
+param tags object = {}
 
 // Network configurations
 @allowed(['Enabled', 'Disabled'])
@@ -27,17 +27,17 @@ param privateEndpointSubnetAddressPrefix string = '10.0.0.0/24'
 param appSubnetAddressPrefix string = '10.0.1.0/24'
 
 // AI Services configurations
-@description('Name of the AI Services account')
+@description('Name of the AI Services account. Automatically generated if left blank')
 param aiServicesName string = ''
-@description('Name of the AI Hub resource')
+@description('Name of the AI Hub resource. Automatically generated if left blank')
 param aiHubName string = ''
-@description('Name of the Storage Account')
+@description('Name of the Storage Account. Automatically generated if left blank')
 param storageName string = ''
-@description('Name of the Key Vault')
+@description('Name of the Key Vault. Automatically generated if left blank')
 param keyVaultName string = ''
 @description('Whether to deploy Azure AI Search service')
 param deploySearch bool
-@description('Name of the AI Search Service')
+@description('Name of the AI Search Service. Automatically generated if left blank')
 param searchName string = ''
 @description('Whether to deploy shared private links from AI Search')
 param deploySharedPrivateLinks bool = deploySearch

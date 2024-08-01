@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "13131334654335493431"
+      "templateHash": "1033079012953944273"
     }
   },
   "parameters": {
@@ -19,27 +19,28 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Principal ID to grant access to the AI services"
+        "description": "Principal ID to grant access to the AI services. Leave empty to skip"
       }
     },
     "resourceGroupName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Resource group name for the AI services"
+        "description": "Resource group name for the AI services. Defauts to rg-<environmentName>"
       }
     },
     "dnsResourceGroupName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Resource group name for the DNS configurations"
+        "description": "Resource group name for the DNS configurations. Defaults to rg-dns"
       }
     },
     "tags": {
       "type": "object",
+      "defaultValue": {},
       "metadata": {
-        "description": "Tags for all AI resources created"
+        "description": "Tags for all AI resources created. JSON object"
       }
     },
     "publicNetworkAccess": {
@@ -89,28 +90,28 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of the AI Services account"
+        "description": "Name of the AI Services account. Automatically generated if left blank"
       }
     },
     "aiHubName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of the AI Hub resource"
+        "description": "Name of the AI Hub resource. Automatically generated if left blank"
       }
     },
     "storageName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of the Storage Account"
+        "description": "Name of the Storage Account. Automatically generated if left blank"
       }
     },
     "keyVaultName": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of the Key Vault"
+        "description": "Name of the Key Vault. Automatically generated if left blank"
       }
     },
     "deploySearch": {
@@ -123,7 +124,7 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of the AI Search Service"
+        "description": "Name of the AI Search Service. Automatically generated if left blank"
       }
     },
     "deploySharedPrivateLinks": {
