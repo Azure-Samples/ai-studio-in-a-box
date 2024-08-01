@@ -1,8 +1,6 @@
 targetScope = 'subscription'
 
 // Common configurations
-@description('Location to deploy resources to')
-param location string
 @description('Name of the environment')
 param environmentName string
 @description('Principal ID to grant access to the AI services')
@@ -11,8 +9,9 @@ param myPrincipalId string = ''
 param resourceGroupName string = ''
 @description('Resource group name for the DNS configurations')
 param dnsResourceGroupName string = ''
-@description('Tags for all AI resources created')
-param tags object
+@description('Tags for all AI resources created. JSON object')
+param tags object = {}
+
 
 // Network configurations
 @allowed(['Enabled', 'Disabled'])
@@ -50,6 +49,8 @@ var abbrs = loadJsonContent('abbreviations.json')
 
 var uniqueSuffix = substring(uniqueString(subscription().id, environmentName), 1, 3)
 
+var location = deployment().location
+
 var names = {
   resourceGroup: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
   dnsResourceGroup: !empty(dnsResourceGroupName) ? dnsResourceGroupName : '${abbrs.resourcesResourceGroups}dns'
@@ -67,6 +68,7 @@ var names = {
   keyVault: !empty(keyVaultName) ? keyVaultName : '${abbrs.keyVaultVaults}${environmentName}-${uniqueSuffix}'
   computeInstance: '${abbrs.computeVirtualMachines}${environmentName}-${uniqueSuffix}'
 }
+
 
 // Deploy two resource groups
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
