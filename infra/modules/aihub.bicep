@@ -113,10 +113,6 @@ resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-prev
   properties: {
     publicNetworkAccess: publicNetworkAccess
     hubResourceId: aiHub.id
-    
-    managedNetwork: {
-      status: aiHub.properties.managedNetwork.status
-    }
   }
   kind: 'Project'
 }
