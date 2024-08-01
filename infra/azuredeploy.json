@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.23.1.45101",
-      "templateHash": "6796615285956473834"
+      "version": "0.29.47.4906",
+      "templateHash": "13131334654335493431"
     }
   },
   "parameters": {
@@ -352,8 +352,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "1801692192747304030"
+              "version": "0.29.47.4906",
+              "templateHash": "10627396572905393211"
             }
           },
           "parameters": {
@@ -480,8 +480,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "1863744399466433492"
+              "version": "0.29.47.4906",
+              "templateHash": "13919513957268722556"
             }
           },
           "parameters": {
@@ -613,8 +613,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "3189565436430711758"
+              "version": "0.29.47.4906",
+              "templateHash": "925684000617934950"
             }
           },
           "parameters": {
@@ -832,8 +832,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "15078907687155168399"
+              "version": "0.29.47.4906",
+              "templateHash": "16942939423198703148"
             }
           },
           "parameters": {
@@ -988,8 +988,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "1451532360501746467"
+              "version": "0.29.47.4906",
+              "templateHash": "17088833105592544787"
             }
           },
           "parameters": {
@@ -1110,8 +1110,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "15377403159185304842"
+              "version": "0.29.47.4906",
+              "templateHash": "9356256917516775976"
             }
           },
           "parameters": {
@@ -1295,8 +1295,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "4821133718367744298"
+              "version": "0.29.47.4906",
+              "templateHash": "3991832730148357887"
             }
           },
           "parameters": {
@@ -1470,8 +1470,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.23.1.45101",
-              "templateHash": "7464115280178636411"
+              "version": "0.29.47.4906",
+              "templateHash": "12445756584321160094"
             }
           },
           "parameters": {
@@ -1579,7 +1579,7 @@
             {
               "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
               "apiVersion": "2021-05-01",
-              "name": "[format('{0}/{1}', format('pl-{0}', parameters('storageName')), format('zg-{0}', parameters('storageName')))]",
+              "name": "[format('{0}/{1}', format('pl-{0}', parameters('aiHubName')), format('zg-{0}', parameters('aiHubName')))]",
               "properties": {
                 "privateDnsZoneConfigs": [
                   {
@@ -1597,7 +1597,7 @@
                 ]
               },
               "dependsOn": [
-                "[resourceId('Microsoft.Network/privateEndpoints', format('pl-{0}', parameters('storageName')))]"
+                "[resourceId('Microsoft.Network/privateEndpoints', format('pl-{0}', parameters('aiHubName')))]"
               ]
             },
             {
@@ -1644,7 +1644,7 @@
             {
               "type": "Microsoft.Network/privateEndpoints",
               "apiVersion": "2021-05-01",
-              "name": "[format('pl-{0}', parameters('storageName'))]",
+              "name": "[format('pl-{0}', parameters('aiHubName'))]",
               "location": "[parameters('location')]",
               "tags": "[parameters('tags')]",
               "properties": {
@@ -1655,14 +1655,17 @@
                   {
                     "name": "private-endpoint-connection",
                     "properties": {
-                      "privateLinkServiceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]",
+                      "privateLinkServiceId": "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('aiHubName'))]",
                       "groupIds": [
-                        "blob"
+                        "amlworkspace"
                       ]
                     }
                   }
                 ]
-              }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('aiHubName'))]"
+              ]
             }
           ],
           "outputs": {

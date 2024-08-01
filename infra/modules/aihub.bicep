@@ -118,7 +118,7 @@ resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-prev
 }
 
 resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
-  name: 'pl-${storageName}'
+  name: 'pl-${aiHubName}'
   location: location
   tags: tags
   properties: {
@@ -129,14 +129,14 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
       {
         name: 'private-endpoint-connection'
         properties: {
-          privateLinkServiceId: storage.id
-          groupIds: ['blob']
+          privateLinkServiceId: aiHub.id
+          groupIds: ['amlworkspace']
         }
       }
     ]
   }
   resource privateDnsZoneGroup 'privateDnsZoneGroups' = {
-    name: 'zg-${storageName}'
+    name: 'zg-${aiHubName}'
     properties: {
       privateDnsZoneConfigs: [
         {
