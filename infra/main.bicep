@@ -1,30 +1,49 @@
 targetScope = 'subscription'
 
 // Common configurations
+@description('Location to deploy resources to')
 param location string
+@description('Name of the environment')
 param environmentName string
+@description('Principal ID to grant access to the AI services')
 param myPrincipalId string = ''
+@description('Resource group name for the AI services')
 param resourceGroupName string = ''
+@description('Resource group name for the DNS configurations')
 param dnsResourceGroupName string = ''
+@description('Tags for all AI resources created')
 param tags object
 
 // Network configurations
 @allowed(['Enabled', 'Disabled'])
+@description('Allow or deny public network access to the AI services (recommended: Disabled)')
 param publicNetworkAccess string
 @allowed(['identity', 'accessKey'])
+@description('Authentication type to use with Storage Account (recommended: identity)')
 param systemDatastoresAuthMode string
+@description('Address prefixes for the spoke vNet')
 param vnetAddressPrefixes array = ['10.0.0.0/16']
+@description('Address prefix for the private endpoint subnet')
 param privateEndpointSubnetAddressPrefix string = '10.0.0.0/24'
+@description('Address prefix for the application subnet')
 param appSubnetAddressPrefix string = '10.0.1.0/24'
 
 // AI Services configurations
+@description('Name of the AI Services account')
 param aiServicesName string = ''
+@description('Name of the AI Hub resource')
 param aiHubName string = ''
+@description('Name of the Storage Account')
 param storageName string = ''
+@description('Name of the Key Vault')
 param keyVaultName string = ''
-param searchName string = ''
+@description('Whether to deploy Azure AI Search service')
 param deploySearch bool
+@description('Name of the AI Search Service')
+param searchName string = ''
+@description('Whether to deploy shared private links from AI Search')
 param deploySharedPrivateLinks bool = deploySearch
+@description('Whether to deploy a sample AI Project')
 param deployAIProject bool = true
 
 var abbrs = loadJsonContent('abbreviations.json')
@@ -59,7 +78,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
 resource dnsResourceGroup 'Microsoft.Resources/resourceGroups@2023-07-01' = {
   name: names.dnsResourceGroup
   location: location
-  tags: tags
 }
 
 // Network module - deploys Vnet

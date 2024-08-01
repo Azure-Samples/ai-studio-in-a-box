@@ -7,7 +7,6 @@ param openAIPrivateDnsZoneId string
 param cognitiveServicesPrivateDnsZoneId string
 param grantAccessTo array
 
-
 resource aiServices 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: aiServicesName
   location: location
@@ -39,7 +38,7 @@ resource aiPrivateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: aiServices.id
-          groupIds: [ 'account' ]
+          groupIds: ['account']
         }
       }
     ]
@@ -59,7 +58,6 @@ resource aiPrivateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
   }
 }
 
-
 resource cognitiveServicesPrivateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
   name: 'pl-${aiServicesName}'
   location: location
@@ -73,7 +71,7 @@ resource cognitiveServicesPrivateEndpoint 'Microsoft.Network/privateEndpoints@20
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: aiServices.id
-          groupIds: [ 'account' ]
+          groupIds: ['account']
         }
       }
     ]

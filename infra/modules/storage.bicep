@@ -53,7 +53,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: storage.id
-          groupIds: [ 'blob' ]
+          groupIds: ['blob']
         }
       }
     ]

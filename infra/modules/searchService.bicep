@@ -40,7 +40,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: search.id
-          groupIds: [ 'searchService' ]
+          groupIds: ['searchService']
         }
       }
     ]

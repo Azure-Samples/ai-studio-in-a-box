@@ -20,7 +20,6 @@ param notebookPrivateDnsZoneId string
 param defaultComputeName string
 param deployAIProject bool
 
-
 resource aiServices 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {
   name: aiServicesName
 }
@@ -45,15 +44,17 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
     publicNetworkAccess: publicNetworkAccess
     managedNetwork: {
       isolationMode: 'AllowInternetOutbound'
-      outboundRules: !empty(search.name) ? {
-        'rule-${search.name}': {
-          type: 'PrivateEndpoint'
-          destination: {
-            serviceResourceId: search.id
-            subresourceTarget: 'searchService'
+      outboundRules: !empty(search.name)
+        ? {
+            'rule-${search.name}': {
+              type: 'PrivateEndpoint'
+              destination: {
+                serviceResourceId: search.id
+                subresourceTarget: 'searchService'
+              }
+            }
           }
-        }
-      } : {}
+        : {}
     }
     friendlyName: aiHubName
     keyVault: keyVault.id
@@ -61,7 +62,6 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
     systemDatastoresAuthMode: systemDatastoresAuthMode
   }
   kind: 'hub'
-
 
   resource aiServicesConnection 'connections@2024-04-01' = {
     name: '${aiHubName}-connection-AIServices'
@@ -103,7 +103,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
   }
 }
 
-resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview' = if(deployAIProject) {
+resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview' = if (deployAIProject) {
   name: aiProjectName
   location: location
   tags: tags
@@ -130,7 +130,7 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
         name: 'private-endpoint-connection'
         properties: {
           privateLinkServiceId: storage.id
-          groupIds: [ 'blob' ]
+          groupIds: ['blob']
         }
       }
     ]
@@ -155,7 +155,6 @@ resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-05-01' = {
     }
   }
 }
-
 
 output aiHubID string = aiHub.id
 output aiHubName string = aiHub.name
