@@ -1,8 +1,6 @@
 targetScope = 'subscription'
 
 // Common configurations
-@description('Location to deploy resources to')
-param location string
 @description('Name of the environment')
 param environmentName string
 @description('Principal ID to grant access to the AI services')
@@ -46,8 +44,8 @@ param deploySharedPrivateLinks bool = deploySearch
 @description('Whether to deploy a sample AI Project')
 param deployAIProject bool = true
 
+var location = deployment().location
 var abbrs = loadJsonContent('abbreviations.json')
-
 var uniqueSuffix = substring(uniqueString(subscription().id, environmentName), 1, 3)
 
 var names = {
