@@ -43,7 +43,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-04-01-preview'
   properties: {
     publicNetworkAccess: publicNetworkAccess
     managedNetwork: {
-      isolationMode: 'AllowInternetOutbound'
+      isolationMode: 'AllowApprovedOutbound'
       outboundRules: !empty(search.name)
         ? {
             'rule-${search.name}': {
