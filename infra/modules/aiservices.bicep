@@ -77,7 +77,7 @@ resource cognitiveServicesPrivateEndpoint 'Microsoft.Network/privateEndpoints@20
     ]
   }
   resource privateDnsZoneGroup 'privateDnsZoneGroups' = {
-    name: 'default'
+    name: 'zg-${aiServicesName}'
     properties: {
       privateDnsZoneConfigs: [
         {

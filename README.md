@@ -4,6 +4,8 @@
 |:---| ---:|
 |This solution is part of the the AI-in-a-Box framework developed by the team of Microsoft Customer Engineers and Architects to accelerate the deployment of AI and ML solutions. Our goal is to simplify the adoption of AI technologies by providing ready-to-use accelerators that ensure quality, efficiency, and rapid deployment.| <img src="./media/ai-in-a-box.png" alt="AI-in-a-box Logo: Description" style="width: 70%"> |
 
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure-Samples%2Fai-studio-in-a-box%2Fmain%2Finfra%2Fazuredeploy.json)
+
 ## User Story
 
 Azure AI Studio allows you to manage and deploy AI and ML solutions across the enterprise with centralized security and compliance controls, while sharing compute and cognitive service resources among different projects and use cases.
@@ -217,8 +219,6 @@ When you submit a pull request, a CLA bot will automatically determine whether y
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact <opencode@microsoft.com> with any additional questions or comments.
 ## Key Contacts & Contributors
-
-Highlight the main contacts for the project and acknowledge contributors. You can adapt the structure from AI-in-a-Box:
 
 | Contact | GitHub ID | Email |
 |---------|-----------|-------|
