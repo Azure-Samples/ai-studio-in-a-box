@@ -21,7 +21,7 @@
       "value": "${AZURE_DEPLOY_AI_PROJECT}"
     },
     "myPrincipalId": {
-      "value": "${PRINCIPAL_ID}"
+      "value": "${AZURE_PRINCIPAL_ID}"
     },
     "tags": {
       "value": {
