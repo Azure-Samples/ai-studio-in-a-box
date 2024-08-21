@@ -102,10 +102,9 @@ Verify that you can:
 - Add Service Connections
 ![Service Connections](media/service-connections-view.png)
 - Add new Compute Instances
-![Compute Instances](media/compute-instances-view)
+![Compute Instances](media/compute-instances-view.png)
 - Grant access to Hub and Projects
 ![Users](media/rbac-view.png)
-
 
 Below is a basic RBAC structure recommended for the created resources:
 
