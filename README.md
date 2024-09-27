@@ -1,3 +1,22 @@
+---
+page_type: sample
+languages:
+- azdeveloper
+- bicep
+products:
+- azure
+- azure-key-vault
+- azure-blob-storage
+- azure-cosmos-db
+- azure-openai
+- azure-ai-studio
+urlFragment: ai-studio-in-a-box
+name: AI Studio in-a-box (AI-in-a-box) Secure Quickstart
+description: The AI Studio in-a-Box project provides a quickstart solution for deploying AI and ML solutions using Azure AI Studio to simplify AI adoption with centralized security, compliance controls, and support for various AI workloads. This solution, part of the AI-in-a-Box framework by Microsoft Customer Engineers and Architects, ensures quality, efficiency, and rapid deployment of AI and ML solutions across various industries.
+
+---
+
+<!-- YAML front-matter schema: https://review.learn.microsoft.com/en-us/help/contribute/samples/process/onboarding?branch=main#supported-metadata-fields-for-readmemd -->
 # AI-in-a-Box - Azure AI Studio Secure Quickstart
 
 |||
